@@ -6,5 +6,5 @@ You will see:
 - **Notes:** Complete notes not necessarily formatted for others to learn from
 - **Partial Notes:** Incomplete notes
 
-My philosophy is that textbooks should be as concise as possible - no half-page-long paragraphs and no super-long examples.
-The professor's lecture should be inspiring, talk about applications/examples and take students on a "journey"; not the textbook.
+My philosophy is that textbooks should be as concise as possible - no half-page-long paragraphs and no super out-of-topic applications.
+The professor's lecture should be inspiring, talk about applications and take students on a "journey"; not the textbook.

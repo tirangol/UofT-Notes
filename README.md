@@ -12,5 +12,5 @@ My philosophy is that textbooks should be as concise as possible - no half-page-
 The professor's lecture should be inspiring, talk about applications and take students on a "journey"; not the textbook.
 
 
-## Side Projwcts
+## Side Projects
 A collection of side projects I programmed at my time at the University of Toronto.

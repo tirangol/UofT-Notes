@@ -859,33 +859,43 @@ class Grid:
 
         pygame.event.clear()
         pygame.event.set_blocked(None)
-        pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN])
+        pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
         x = min((screen_size[0] - 100) / self.cols, (screen_size[1] - 100) / self.rows, 100)
         origin = (screen_size[0] - (self.cols * x)) / 2, (screen_size[1] - (self.rows * x)) / 2
         win = False
+        meaningless_key = False
 
         while True:
             screen.fill(BACKGROUND_COL)
             pygame.display.flip()
-            self.draw_grid(screen, x, origin)
-            pygame.display.flip()
+            if not meaningless_key:
+                self.draw_grid(screen, x, origin)
+                pygame.display.flip()
             if win:
                 font = pygame.font.SysFont("Tahoma", min(screen_size[0], screen_size[1]) // 20)
                 text = font.render("You Win!", True, TEXT_COL)
                 screen.blit(text, (screen_size[0] // 2.5, 10))
                 pygame.display.flip()
 
+            meaningless_key = False
             event = pygame.event.wait()
 
             if win:
                 self.generate()
                 self.scramble()
                 win = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN:
                 win = self.handle_click(x, origin, event)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.solve()
+                    if self.check():
+                        win = True
             elif event.type == pygame.QUIT:
                 break
+            else:
+                meaningless_key = True
 
         pygame.display.quit()
         exit()
@@ -1023,6 +1033,8 @@ if __name__ == "__main__":
     print("grid x y   - sets the game grid size to x by y (default = 10 x 10, min grid area = 8)")
     print("screen x y - sets the screen size to x by y (default = 800 x 800, min = 50 x 50)")
     print("play       - begin the Infinity Loop game")
+    print()
+    print("If you press space in-game, the program makes 1 step in an attempt to solve the puzzle.")
     inp = input().lower()
     while "  " in inp:
         inp = inp.replace("  ", " ")
@@ -1041,7 +1053,7 @@ if __name__ == "__main__":
             if inp.count(" ") != 2:
                 print("Invalid argument count. Please try again.")
             command, newx, newy = inp.split(" ")
-            newx, newy = int(round(float(newx))), int(round(float(newy)))
+            newx, newy = round(float(newx)), round(float(newy))
             if command == "grid":
                 if newx * newy >= 8:
                     gridx, gridy = newx, newy

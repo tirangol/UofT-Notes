@@ -9,7 +9,7 @@ A command-line interface should open up immediately as `infinity_loop_redux.py` 
 - `screen x y` set the screen size to x by y pixels (default is 800 x 800, minimum is 50 x 50)
 - `play` start the game
 
-The game is guaranteed to randomly generate a solveable game of any size. When playing, simply click the grid to flip the blocks. There are no animations for this sadly.
+The game is guaranteed to randomly generate a solveable game of any size, as well as center and proportion the sizes of blocks to fit to the screen. When playing, simply click the grid to flip the blocks. There are no animations for this sadly.
 
 <p align="center">
 <img src="small.gif" width="450" height="450"/>

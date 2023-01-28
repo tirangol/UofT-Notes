@@ -6,7 +6,7 @@ import java.util.List;
  *  The function eval() should evaluate a command.
  */
 abstract public class Command {
-    // These functions are copied from Javashell
+    // These functions are copied from Java shell
     int maxArguments;
     int minArguments;
 

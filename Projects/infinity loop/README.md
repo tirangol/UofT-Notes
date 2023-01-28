@@ -11,8 +11,8 @@ A command-line interface should open up immediately as `infinity_loop_redux.py` 
 
 The game is guaranteed to randomly generate a solveable game of any size. When playing, simply click the grid to flip the blocks. There are no animations for this sadly.
 
-<img src="small.gif" width="250" height="250"/>
+<img src="small.gif" width="250" height="250" style="margin-left: auto margin-right: auto display: block"/>
 
 If needed, I have also implemented an imperfect auto-solving algorithm, one iteration of which is activateable by pressing the space button. Note that the algorithm cannot fully solve grids where there are multiple possible solutions.
 
-<img src="big.gif" width="250" height="250"/>
+<img src="small.gif" width="250" height="250" style="margin-left: auto margin-right: auto display: block"/>

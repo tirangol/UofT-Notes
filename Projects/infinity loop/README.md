@@ -15,6 +15,8 @@ The game is guaranteed to randomly generate a solveable game of any size. When p
 <img src="small.gif" width="450" height="450"/>
 </p>
 
+The wonky black at the bottom-right is the recording software, not the program.
+
 If needed, I have also implemented an imperfect auto-solving algorithm, one iteration of which is activateable by pressing the space button. Note that the algorithm cannot fully solve grids where there are multiple possible solutions.
 
 <p align="center">

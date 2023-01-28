@@ -1,3 +1,17 @@
+# Calendar
+
+A productivity app for building calendars, adding events/tasks with labels, deadlines, commenting, etc. as well as some calendar sharing functionality with differing levels of permissions. Created in CSC207 "Software Design", summer 2022 in a group of 6.
+ 
+Due to time constraints, while the project's base functionality is finished (and can be accessed in a command-line prompt also made by me), the GUI, which I was responsible for, was left incomplete. Here is what there is of it:
+
+<p align="center">
+<img src="user.gif" width="500px">
+</p>
+
+<p align="center">
+<img src="admin.gif" width="500px">
+</p>
+
 # Program Structure
 
 The SRC folder contains the following packages, whose division mostly had the layers of Clean Architecture in mind:

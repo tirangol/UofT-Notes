@@ -15,8 +15,10 @@ This program supports:
 - Reading key signatures and formatting notes according to them
 
 <p align="center">
-<img src="c1.gif" width="500 px">
-<img src="c2.gif" width="500 px">
+<img src="c1.gif" width="500px">
+</p>
+<p align="center">
+<img src="c2.gif" width="500px">
 </p>
 
 Upon running `main.py`, a command-line interface will allow the following commands:

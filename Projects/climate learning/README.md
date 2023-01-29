@@ -44,10 +44,6 @@ Here's another attempt, where I treated latitude completely differently and mode
 <img src="img/new_lat.gif">
 </p>
 
-<p align="center">
-<img src="img/lin2.gif">
-</p>
-
 Here is a gradient descent attempt by a 3-layer neural network using relu(x), followed by 70 * tanh(x / 140), learning rate of 0.001, and momentum:
 
 <p align="center">

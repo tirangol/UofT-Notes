@@ -23,9 +23,9 @@ Upon running `main.py`, a command-line interface will allow the following comman
 - `margin x` - set the x-margins to x (15 pixels by default) (this is the distance between horizontal ends of the screen with staff)
 - `textsize x` - set text size of error annotations to x (15 pt by default)
 - `voice n1 n2 n3 ...` - type in the notes of a melody/voice to analyze. Has to be a note followed by an octave (C4 is middle C). Sharps are # and flats are b. There is GUI support for double-sharps (##) and double-flats (bb), but not trilpe sharps and flats.
-- `scale c major` - type in a key and scale-type (default: c major, aka no flats or sharps). Mainly for the purpose of setting default accidentals
+- `scale c major` - type in a key and scale-type (default: c major, aka no flats or sharps). Determines the key signature. Mainly for the purpose of setting default accidentals
 - `custom scale n1 n2 n3 ...` - type in the notes of a custom scale. No octave numbers and no duplicate notes allowed.
-- `scale_key c` - set the key the scale is centered on (default: c major, aka no flats or sharps). Determines the key signature.
+- `scale_key c` - set the key the scale is centered on (default: c major, aka no flats or sharps). Basically a shortcut to just change the key and not the notes of the scale.
 - `display` - display the window and analyze the voice.
 
 When the displayer is open, you can scroll up and down, press m to play the melody, and press space to toggle text error annotations.

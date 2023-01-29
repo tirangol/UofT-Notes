@@ -44,7 +44,9 @@ The abbreviated rule names can be found in the comments, but here they are here:
 There are more rules than these for cantus firmus, but these were all the ones I implemented.
 
 An example usage of this program would be:
+```
 >? voice "D1 D2 D3 A2 G#2 G2 F2 D2 F2 G2 Ab2 G2 F2 D2 Bb4 E4 G#3"
 >? scale Gb major
 >? textsize 12
 >? display
+```

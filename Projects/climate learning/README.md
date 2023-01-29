@@ -6,6 +6,8 @@ A work-in-progress machine learning project to predict monthly temperature/preci
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/K%C3%B6ppen-Geiger_Climate_Classification_Map.png/1280px-K%C3%B6ppen-Geiger_Climate_Classification_Map.png" width="800px">
 </p>
 
+Libraries used are numpy for most data processing, pytorch for the neural network, matplotlib.pyplot for plots, and imageio for processing plots into gifs
+
 The model is naïve as it does not take into account water depth, vegetation, thermohaline circulation, or the chemical makeup of the atmosphere/water.
 
 The model has no practical scientific use, but it could be used as a fast, light-weight, high-resolution way (compared to real physics-based climate simulations) to predict data for hypothetical Earth-like land masses.

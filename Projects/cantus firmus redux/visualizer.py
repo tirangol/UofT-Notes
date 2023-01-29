@@ -77,7 +77,7 @@ class Visualizer:
                 scroll += 50
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 5:  # Scroll Down
                 scroll -= 50
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_M:  # Play music
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:  # Play music
                 music_playing = True
                 self._player.play_midi()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:  # Annotations

@@ -1,6 +1,6 @@
 # Calendar
 
-A productivity app for building calendars, adding events/tasks with labels, deadlines, commenting, etc. as well as some calendar sharing functionality with differing levels of permissions. Created in CSC207 "Software Design", summer 2022 in a group of 6.
+A productivity app for building calendars, adding events/tasks with labels, deadlines, commenting, etc. as well as some calendar sharing functionality with differing levels of permissions. Data is persisted in .ser files. Created in CSC207 "Software Design", summer 2022 in a group of 6.
 
 Created in Java, using object-oriented programming, following clean architecture and the principles of SOLID. The GUI was made using Javafx and Scenebuilder.
 
@@ -15,6 +15,11 @@ Separate menu for admins. There is not much of a point of banning/unbanning; thi
 <p align="center">
 <img src="admin.gif" width="500px">
 </p>
+
+To run the program in the command-line interface (which has access to all features), run `src/Main.java`. If this is the first time opening this project, run this file to create an admin account first.
+
+To run the program in the GUI interface (which has limited features), run `src/GUI/Main.java`.
+
 
 # Program Structure
 

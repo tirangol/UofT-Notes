@@ -2,7 +2,9 @@
 
 A work-in-progress machine learning project to predict monthly temperature/precipitation from coastline data and elevation, which can be aggregated into a Koppen climate classification, as shown below: 
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/K%C3%B6ppen-Geiger_Climate_Classification_Map.png" width="800px">
+<p align="center">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/K%C3%B6ppen-Geiger_Climate_Classification_Map.png/1280px-K%C3%B6ppen-Geiger_Climate_Classification_Map.png" width="800px">
+</p>
 
 The model is naïve as it does not take into account water depth, vegetation, thermohaline circulation, or the chemical makeup of the atmosphere/water.
 

@@ -56,7 +56,9 @@ And here's its prediction on a retrograde Earth:
 <img src="img/neural_retrograde.gif" width="800px">
 </p>
 
-I actually attempted neural networks first, but my inputs were not well-processed for the task, so I ended up with super-long convergence times that overfitted a lot. But this attempt with better features worked out pretty well. There's stil many rough edges though:
+I do worry that the network has overfitted, as I feel West Siberia (as in, East Siberia in the normal Earth) should be much warmer and that this retrograde model predicts it to be almost as cold as it was before.
+
+I actually attempted neural networks first, but my inputs were not well-processed for the task, so I ended up with super-long convergence times that overfitted a lot. But this attempt with better features worked out pretty well. There's still many rough edges though:
 - Patagonia should get warmer in the summer and colder in the winter
 - Northern Africa is too cold during the winter
 - Northern coasts of Australia is warmer than the interior during January

@@ -23,6 +23,8 @@ This program supports:
 
 The black bottom-right part is the result of my screen recorder, not the program.
 
+## Instructions
+
 Upon running `main.py`, a command-line interface will allow the following commands:
 - `screen x y` - set the screen size to x by y pixels (1000 by 600 by default, with a minimum with of 200)
 - `margin x` - set the x-margins to x (15 pixels by default) (this is the distance between horizontal ends of the screen with staff)
@@ -34,6 +36,16 @@ Upon running `main.py`, a command-line interface will allow the following comman
 - `display` - display the window and analyze the voice.
 
 When the displayer is open, you can scroll up and down, press m to play the melody, and press space to toggle text error annotations.
+
+An example usage of this program would be:
+```
+>? voice "D1 D2 D3 A2 G#2 G2 F2 D2 F2 G2 Ab2 G2 F2 D2 Bb4 E4 G#3"
+>? scale Gb major
+>? textsize 12
+>? display
+```
+
+## Notation
 
 The abbreviated rule names can be found in the comments, but here they are here:
 - `LEAP` - A note after a P8/m6 leap must be between the two previous notes
@@ -47,10 +59,4 @@ The abbreviated rule names can be found in the comments, but here they are here:
 
 There are more rules than these for cantus firmus, but these were all the ones I implemented.
 
-An example usage of this program would be:
-```
->? voice "D1 D2 D3 A2 G#2 G2 F2 D2 F2 G2 Ab2 G2 F2 D2 Bb4 E4 G#3"
->? scale Gb major
->? textsize 12
->? display
-```
+

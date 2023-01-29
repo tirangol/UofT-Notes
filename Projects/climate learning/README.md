@@ -1,4 +1,4 @@
-# Climate Learning
+# Climate Learning (WORK-IN-PROGRESS)
 
 A work-in-progress machine learning project to predict monthly temperature/precipitation from coastline data and elevation, which can be aggregated into a Koppen climate classification (see https://commons.wikimedia.org/wiki/File:K%C3%B6ppen-Geiger_Climate_Classification_Map.png).
 
@@ -6,7 +6,7 @@ The model is naïve as it does not take into account water depth, vegetation, th
 
 The model has no practical scientific use, but it could be used as a fast, light-weight, high-resolution way (compared to real physics-based climate simulations) to predict data for hypothetical Earth-like land masses.
 
-I have not uploaded the raw data to Github because it is 12 gigabytes. I will uploaded saved copies of data in the future, when my model is coomplete.
+This project is not complete and will not run as I have not uploaded the necessary raw data to Github (it is 12 gigabytes). I will uploaded saved copies of data in the future, when my model is coomplete.
 
 ## About
 

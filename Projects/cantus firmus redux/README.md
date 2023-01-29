@@ -21,6 +21,8 @@ This program supports:
 <img src="c2.gif" width="500px">
 </p>
 
+The black bottom-right part is the result of my screen recorder, not the program.
+
 Upon running `main.py`, a command-line interface will allow the following commands:
 - `screen x y` - set the screen size to x by y pixels (1000 by 600 by default, with a minimum with of 200)
 - `margin x` - set the x-margins to x (15 pixels by default) (this is the distance between horizontal ends of the screen with staff)

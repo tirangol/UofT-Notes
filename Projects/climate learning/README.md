@@ -23,37 +23,37 @@ I am focused on predicting monthly temperature for now. I am mostly finished wit
 Here is a generated gif of real monthly temperatures across Earth:
 
 <p align="center">
-<img src="img/real.gif">
+<img src="img/real.gif" width="800px">
 </p>
 
 Here is my first attempt, using basic multivariate linear regression. There're clearly flaws in how high elevations in the northern hemisphere seems to get colder in the summer.
 
 <p align="center">
-<img src="img/lin.gif">
+<img src="img/lin.gif" width="800px">
 </p>
 
 Here's another attempt, using extra latitude features. I hoped it wouldn't be prominent, but you can really see three unnatural horizontal bars (the latitude inputs). At least it solved the elevation issue.
 
 <p align="center">
-<img src="img/lin2.gif">
+<img src="img/lin2.gif" width="800px">
 </p>
 
 Here's another attempt, where I treated latitude completely differently and modelled it as a single input to constantly move with time. This took a lot of time and looked more natural, but the elevation issue came back.
 
 <p align="center">
-<img src="img/new_lat.gif">
+<img src="img/new_lat.gif" width="800px">
 </p>
 
 Here is a gradient descent attempt by a 3-layer neural network using relu(x), followed by 70 * tanh(x / 140), learning rate of 0.001, and momentum:
 
 <p align="center">
-<img src="img/neural.gif">
+<img src="img/neural.gif" width="800px">
 </p>
 
 And here's its prediction on a retrograde Earth:
 
 <p align="center">
-<img src="img/neural_retrograde.gif">
+<img src="img/neural_retrograde.gif" width="800px">
 </p>
 
 I actually attempted neural networks first, but my inputs were not well-processed for the task, so I ended up with super-long convergence times that overfitted a lot. But this attempt with better features worked out pretty well. There's stil many rough edges though:

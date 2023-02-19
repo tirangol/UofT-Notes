@@ -20,13 +20,13 @@ Here's my (so-far) best-performing model that has been fitted to Earth.
 <img src="img/first attempt.png" width="800px">
 </p>
 
-Libraries used are numpy for most data processing, pytorch for the neural network, matplotlib.pyplot for plots, and imageio for processing plots into gifs.
+Libraries used are **numpy** for most data processing, **pytorch** for the neural network, **matplotlib.pyplot** for plots, **imageio** for processing plots into gifs, and **os** for removing the generated gif frames.
 
 The model is very naïve as it does not take into account water depth, vegetation, thermohaline circulation, or the chemical makeup of the atmosphere/water.
 
 The model has no practical scientific use, but it could be used as a fast, light-weight, high-resolution way (compared to real physics-based climate simulations) to predict data for hypothetical Earth-like land masses.
 
-This project is not complete and will not run properly as I have not uploaded the necessary raw data to Github (it is 12 gigabytes). I will upload saved copies of data in the future, when my model is complete.
+This project is not complete and **will not run properly** as I have not uploaded the necessary raw data to Github (it is 12 gigabytes). I will upload saved copies of data in the future, when my model is complete.
 
 ## About
 
@@ -136,7 +136,7 @@ So I'd subtract these best-fit curves from the data first, then let the neural n
 So, I haven't got around to working with precipitation yet, but I was impatient to see how well my model was, so I tried fitting the precipitation data using the temperature-specific neural net and inputs, and it got this:
 
 <p align="center">
-<img src="img/theoryy_prec.png" width="800px">
+<img src="img/theoryyprec.png" width="800px">
 </p>
 
 Which is obviously not very good, but when you factor both of these in and compute the Koppen classifications, you have a result that isn't actually that horrible (even though it is rather noisy and messy)
@@ -154,13 +154,13 @@ Here's a prediction with retrograde Earth's climate:
 Alternately visualized as
 
 <p align="center">
-<img src="img/first attempt flipped retrograde.png" width="800px">
+<img src="img/first attempt retrograde.png" width="800px">
 </p>
 
 This is what an actual physics simulation predicts (top for retrograde):
 
-<p> align="center">
-<img src="https://esd.copernicus.org/articles/9/1191/2018/esd-9-1191-2018-f10-web.png" width="800 px">
+<p align="center">
+<img src="https://esd.copernicus.org/articles/9/1191/2018/esd-9-1191-2018-f10-web.png" width="400 px">
 </p>
 
 I'm surprised that my model is not actually that bad!

@@ -54,6 +54,8 @@ Note that in my learning, I have data for a map of Earth, plus data for a map of
 
 ## Learning Temperature
 
+Obviously, latitude, elevation, and coastlines is not enough data - we need points to aware of the areas around them. Lots of time was spend essentially performing convolutions on these pieces of data to calculate inputs like how many pixels inland a piece of land is, or the "influence" of water on the land, elevation differences in certain directions, etc. A lot of these calculations are unfortunately impacted by the map projection being used (equirectangular) and limited choices of directions.
+
 I have focused most of my efforts on predicting monthly temperature. The biggest time sink has been going back and forth between data processing and data analysis to find better correlations and reduce loss and converge quicker.
 
 Here is my first attempt, using basic multivariate linear regression. There're clearly flaws in how high elevations in the northern hemisphere seems to get colder in the summer.

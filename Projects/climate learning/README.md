@@ -14,7 +14,7 @@ Here's what the real-world Koppen climate map looks like when processed in my pr
 <img src="img/koppen.png" width="800px">
 </p>
 
-Here's my (so-far) best-performing model's predictions.
+Here's my (so-far) best-performing model that has been fitted to Earth.
 
 <p align="center">
 <img src="img/first attempt.png" width="800px">
@@ -26,7 +26,7 @@ The model is very naïve as it does not take into account water depth, vegetatio
 
 The model has no practical scientific use, but it could be used as a fast, light-weight, high-resolution way (compared to real physics-based climate simulations) to predict data for hypothetical Earth-like land masses.
 
-This project is not complete and will not run as I have not uploaded the necessary raw data to Github (it is 12 gigabytes). I will upload saved copies of data in the future, when my model is complete.
+This project is not complete and will not run properly as I have not uploaded the necessary raw data to Github (it is 12 gigabytes). I will upload saved copies of data in the future, when my model is complete.
 
 ## About
 
@@ -41,7 +41,7 @@ I have some knowledge of climatology, but only to the level of a hobbyist.
 Here is a generated gif of real monthly temperatures across Earth:
 
 <p align="center">
-<img src="img/real.gif" width="800px">
+<img src="img/temp.gif" width="800px">
 </p>
 
 and precipitation:

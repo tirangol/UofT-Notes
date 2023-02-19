@@ -128,7 +128,7 @@ And northern hemispheres follow a nice cos curve depending on month:
 So I'd subtract these best-fit curves from the data first, then let the neural net figure out everything else. The result is my current final result, and is slightly better:
 
 <p align="center">
-<img src="img/theoryy.png" width="800px">
+<img src="img/theoryy.gif" width="800px">
 </p>
 
 ## First Prediction
@@ -136,7 +136,7 @@ So I'd subtract these best-fit curves from the data first, then let the neural n
 So, I haven't got around to working with precipitation yet, but I was impatient to see how well my model was, so I tried fitting the precipitation data using the temperature-specific neural net and inputs, and it got this:
 
 <p align="center">
-<img src="img/theoryyprec.png" width="800px">
+<img src="img/theoryyprec.gif" width="800px">
 </p>
 
 Which is obviously not very good, but when you factor both of these in and compute the Koppen classifications, you have a result that isn't actually that horrible (even though it is rather noisy and messy)

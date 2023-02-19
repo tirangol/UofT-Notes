@@ -54,7 +54,7 @@ Note that in my learning, I have data for a map of Earth, plus data for a map of
 
 ## Learning Temperature
 
-Obviously, latitude, elevation, and coastlines is not enough data - we need points to aware of the areas around them. Lots of time was spend essentially performing convolutions on these pieces of data to calculate inputs like how many pixels inland a piece of land is, or the "influence" of water on the land, elevation differences in certain directions, etc. A lot of these calculations are unfortunately impacted by the map projection being used (equirectangular) and limited choices of directions.
+Latitude, elevation, and coastlines alone is not enough data - we need points to be "aware" of the areas around them, similar to the principles of a convolutional neural network. Lots of time was spend essentially performing convolutions on these pieces of data to calculate inputs like how many pixels inland a piece of land is, or the "influence" of water on the land, elevation differences in certain directions, etc. A lot of these calculations are unfortunately impacted by the map projection being used (equirectangular) and limited choices of directions. I did not use a convolutional neural network because I already had a good idea of the types of data that should be theoretically useful, and I had less experience working with them.
 
 I have focused most of my efforts on predicting monthly temperature. The biggest time sink has been going back and forth between data processing and data analysis to find better correlations and reduce loss and converge quicker.
 

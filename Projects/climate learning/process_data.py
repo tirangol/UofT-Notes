@@ -7,20 +7,22 @@ Recommended usage:
 
 resolution = (360, 180)
 save_inputs(resolution, False, (False, False, False))
-save_targets(resolution, False, (False, False, False))
 save_inputs(resolution, False, (True, True, False))
-save_targets(resolution, False, (True, True, False))
 save_inputs(resolution, False, (True, False, False))
-save_targets(resolution, False, (True, False, False))
 save_inputs(resolution, False, (False, True, False))
+save_inputs(resolution, True, (True, True, True))
+
+save_targets(resolution, False, (False, False, False))
+save_targets(resolution, False, (True, True, False))
+save_targets(resolution, False, (True, False, False))
 save_targets(resolution, False, (False, True, False))
+save_targets(resolution, True, (True, True, True))
 
 save_temp_inputs(resolution, False, (False, False, False))
 save_temp_inputs(resolution, False, (False, True, False))
 save_temp_inputs(resolution, False, (True, False, False))
 save_temp_inputs(resolution, False, (True, True, False))
 save_temp_inputs(resolution, True, (True, True, True))
-save_targets(resolution, True, (True, True, True))
 """
 
 from load_data import *
@@ -97,14 +99,26 @@ def save_targets(resolution: tuple[int, int], remove_na: bool = False,
 
 def get_inputs(resolution: tuple[int, int], remove_na: bool = False,
                flip: tuple[bool, bool, bool] = (False, False, False)) -> np.ndarray:
-    """Retrieve the saved inputs."""
+    """Retrieve the saved inputs.
+
+    :param resolution: The resolution of the inputs to load
+    :param remove_na: Omit na values (ie. remove water)
+    :param flip: A tuple of flipping parameters for flipping horizontally, vertically, or to return
+    data for non-flipped and all-flipped.
+    """
     w, h = resolution
     return np.load(format_filepath(w, h, remove_na, flip, "inputs"))
 
 
 def get_targets(resolution: tuple[int, int], remove_na: bool = False,
                 flip: tuple[bool, bool, bool] = (False, False, False)) -> np.ndarray:
-    """Retrieve the saved targets."""
+    """Retrieve the saved targets.
+
+    :param resolution: The resolution of the targets to load
+    :param remove_na: Omit na values (ie. remove water)
+    :param flip: A tuple of flipping parameters for flipping horizontally, vertically, or to return
+    data for non-flipped and all-flipped.
+    """
     w, h = resolution
     return np.load(format_filepath(w, h, remove_na, flip, "targets"))
 
@@ -245,8 +259,8 @@ def straight_coast(prop_s: np.ndarray, dist_s: np.ndarray, prop_i: np.ndarray, d
 
     p1 = sig(prop_s, 1) ** 2
     p2 = rev_tanh(dist_s / prop(20)) ** 2
-    p3 = rev_sig(gaussian_filter(prop_i, prop(2)), 1) ** 2
-    p4 = rev_tanh(gaussian_filter(dist_i, prop(2)) / prop(20)) ** 2
+    p3 = rev_sig(gaussian_filter(prop_i, 2), 1) ** 2
+    p4 = rev_tanh(gaussian_filter(dist_i, 2) / prop(20)) ** 2
 
     c1 = avgs(p1, p2, p3, p4) * water_inf
     c2 = avgs(p1, p2, p3, p4) ** 2 * water_inf
@@ -299,10 +313,10 @@ def diagonal_coast(prop_s: np.ndarray, dist_s: np.ndarray, prop_i: np.ndarray, d
     sig = sigmoid if d == "south" else rev_sigmoid
     rev_sig = rev_sigmoid if d == "south" else sigmoid
 
-    p1 = sig(gaussian_filter(prop_s, prop(1)), 1) ** 5
-    p2 = rev_tanh(gaussian_filter(inner_layer(dist_s), prop(1)) / prop(20)) ** 2
-    p3 = rev_sig(gaussian_filter(prop_i, prop(1)), 1) ** 3
-    p4 = rev_tanh(gaussian_filter(inner_layer(dist_i), prop(1)) / prop(20)) ** 2 * inlandness(1)
+    p1 = sig(gaussian_filter(prop_s, 1), 1) ** 5
+    p2 = rev_tanh(gaussian_filter(inner_layer(dist_s), 1) / prop(20)) ** 2
+    p3 = rev_sig(gaussian_filter(prop_i, 1), 1) ** 3
+    p4 = rev_tanh(gaussian_filter(inner_layer(dist_i), 1) / prop(20)) ** 2 * inlandness(1)
 
     c = avgs(p1, p2, p3, p4) * inlandness(2)
     return c
@@ -323,7 +337,10 @@ def process_inputs(inputs: np.ndarray, resolution: tuple[int, int] = (360, 180))
     # inputs = get_inputs(resolution)
     # targets = get_targets(resolution)
 
-    extract_row = lambda i: inputs[:, i].reshape((h, w))
+    def extract_row(i: int) -> np.ndarray:
+        """Extract a row from the raw inputs."""
+        return inputs[:, i].reshape((h, w))
+
     latitude = extract_row(0)
     elevation = extract_row(1)
     inland = extract_row(2)
@@ -366,7 +383,6 @@ def process_inputs(inputs: np.ndarray, resolution: tuple[int, int] = (360, 180))
     d21, d22, d23, d24 = extract_row(56), extract_row(57), extract_row(58), extract_row(59)
     d25, d26, d27, d28 = extract_row(60), extract_row(61), extract_row(62), extract_row(63)
 
-    # Helper functions
     prop = lambda x: x * h // 180
     elev = lambda x: x / 1000
 
@@ -378,8 +394,14 @@ def process_inputs(inputs: np.ndarray, resolution: tuple[int, int] = (360, 180))
     # l1b = spread(l1a, spread_1)
     l1a = normalize(45 - abs(latitude))
     l1b = spread(l1a, 0.5)
-    l1c = spread(normalize(45 - abs(latitude - 30)), 0.5)
-    l1d = spread(normalize(45 - abs(latitude + 30)), 0.5)
+    l1c = normalize(45 - abs(latitude - 15))
+    l1d = spread(l1c, 0.5)
+    l1e = normalize(45 - abs(latitude + 15))
+    l1f = spread(l1e, 0.5)
+    l1g = normalize(45 - abs(latitude - 30))
+    l1h = spread(l1g, 0.5)
+    l1i = normalize(45 - abs(latitude + 30))
+    l1j = spread(l1i, 0.5)
 
     # Elevation, Inland, Water-Influence
     l2 = elev(elevation)
@@ -387,9 +409,10 @@ def process_inputs(inputs: np.ndarray, resolution: tuple[int, int] = (360, 180))
     l4 = tanh(water_influence / prop(20))
 
     # Coasts
-    cell = lambda start, end: relu(
-        -4 * (abs(latitude) - start) * (abs(latitude) - end) / ((start - end) ** 2)
-    )
+    def cell(start: float, end: float) -> np.ndarray:
+        """Return a masking layer of values with latitude boundaries [start, end].
+        Values near the boundaries fade out."""
+        return relu(-4 * (abs(latitude) - start) * (abs(latitude) - end) / ((start - end) ** 2))
     equator = cell(-30, 30)
     hadley = cell(10, 40)
     ferrel = cell(30, 60)
@@ -408,15 +431,19 @@ def process_inputs(inputs: np.ndarray, resolution: tuple[int, int] = (360, 180))
     l10 = diagonal_coast(d22, d2, d27, d19, inland_weight, "south")
 
     # Rain-shadow
-    l11a, l12a, l13a = elev(relu(elev_diff_3_r)), elev(relu(elev_diff_3_l)), elev(relu(elev_diff_3_ul))
-    l14a, l15a, l16a = elev(relu(elev_diff_3_ur)), elev(relu(elev_diff_3_dl)), elev(relu(elev_diff_3_dr))
+    l11a = elev(avgs(relu(elev_diff_3_r), relu(elev_diff_5_r)))
+    l12a = elev(avgs(relu(elev_diff_3_l), relu(elev_diff_5_l)))
+    l13a = elev(avgs(relu(elev_diff_3_ul), relu(elev_diff_5_ul)))
+    l14a = elev(avgs(relu(elev_diff_3_ur), relu(elev_diff_5_ur)))
+    l15a = elev(avgs(relu(elev_diff_3_dl), relu(elev_diff_5_dl)))
+    l16a = elev(avgs(relu(elev_diff_3_dr), relu(elev_diff_5_dr)))
 
-    l11b = elev(avgs(relu(elev_diff_5_r), relu(elev_diff_10_r), relu(elev_diff_15_r)))
-    l12b = elev(avgs(relu(elev_diff_5_l), relu(elev_diff_10_l), relu(elev_diff_15_l)))
-    l13b = elev(avgs(relu(elev_diff_5_ul), relu(elev_diff_10_ul), relu(elev_diff_15_ul)))
-    l14b = elev(avgs(relu(elev_diff_5_ur), relu(elev_diff_10_ur), relu(elev_diff_15_ur)))
-    l15b = elev(avgs(relu(elev_diff_5_dl), relu(elev_diff_10_dl), relu(elev_diff_15_dl)))
-    l16b = elev(avgs(relu(elev_diff_5_dr), relu(elev_diff_10_dr), relu(elev_diff_15_dr)))
+    l11b = elev(avgs(relu(elev_diff_10_r), relu(elev_diff_15_r)))
+    l12b = elev(avgs(relu(elev_diff_10_l), relu(elev_diff_15_l)))
+    l13b = elev(avgs(relu(elev_diff_10_ul), relu(elev_diff_15_ul)))
+    l14b = elev(avgs(relu(elev_diff_10_ur), relu(elev_diff_15_ur)))
+    l15b = elev(avgs(relu(elev_diff_10_dl), relu(elev_diff_15_dl)))
+    l16b = elev(avgs(relu(elev_diff_10_dr), relu(elev_diff_15_dr)))
 
     # l17a, l18a, l19a = rev_relu(elev_diff_3_r), rev_relu(elev_diff_3_l), rev_relu(elev_diff_3_ul)
     # l20a, l21a, l22a = rev_relu(elev_diff_3_ur), rev_relu(elev_diff_3_dl), rev_relu(elev_diff_3_dr)
@@ -436,17 +463,29 @@ def process_inputs(inputs: np.ndarray, resolution: tuple[int, int] = (360, 180))
     n = lambda x: x * (latitude >= 0)
     s = lambda x: x * (latitude <= 0)
     temp_inputs = np.c_[
-        r(latitude / 90), r(l1a), r(l1b), r(l1c), r(l1d), r(l2),            # latitude, elevation
-        r(eq(l3)), r(ha(l3)), r(fe(l3)),                                    # inland
-        r(eq(l4)), r(ha(l4)), r(fe(l4)), r(po(l4)),                         # water influence
-        r(eq(l5a)), r(ha(l5a)), r(fe(l5a)),                                 # west coast
-        r(eq(l5b)), r(ha(l5b)), r(fe(l5b)),
-        r(eq(l6)), r(ha(l6)), r(fe(l6)),
-        r(eq(l7)), r(ha(l7)), r(fe(l7)),
-        r(eq(l8a)), r(ha(l8a)), r(fe(l8a)),                                 # east coast
-        r(eq(l8b)), r(ha(l8b)), r(fe(l8b)),
-        r(eq(l9)), r(ha(l9)), r(fe(l9)),
-        r(eq(l10)), r(ha(l10)), r(fe(l10)),
+        r(l1a), r(l1b), r(l1c), r(l1d), r(l1e),                             # latitude
+        r(l1f), r(l1g), r(l1h), r(l1i), r(l1j),
+        r(eq(l2)), r(ha(l2)), r(fe(l2)), r(po(l2)),                         # elevation
+        r(n(eq(l3))), r(n(ha(l3))), r(n(fe(l3))), r(n(po(l3))),             # inland
+        r(s(eq(l3))), r(s(ha(l3))), r(s(fe(l3))), r(n(po(l3))),
+        r(n(eq(l4))), r(n(ha(l4))), r(n(fe(l4))), r(n(po(l4))),             # water influence
+        r(s(eq(l4))), r(s(ha(l4))), r(s(fe(l4))), r(s(po(l4))),
+        r(n(eq(l5a))), r(n(ha(l5a))), r(n(fe(l5a))),                        # west coast
+        r(s(eq(l5a))), r(s(ha(l5a))), r(s(fe(l5a))),
+        r(n(eq(l5b))), r(n(ha(l5b))), r(n(fe(l5b))),
+        r(s(eq(l5b))), r(s(ha(l5b))), r(s(fe(l5b))),
+        r(n(eq(l6))), r(n(ha(l6))), r(n(fe(l6))),
+        r(s(eq(l6))), r(s(ha(l6))), r(s(fe(l6))),
+        r(n(eq(l7))), r(n(ha(l7))), r(n(fe(l7))),
+        r(s(eq(l7))), r(s(ha(l7))), r(s(fe(l7))),
+        r(n(eq(l8a))), r(n(ha(l8a))), r(n(fe(l8a))),                        # east coast
+        r(s(eq(l8a))), r(s(ha(l8a))), r(s(fe(l8a))),
+        r(n(eq(l8b))), r(n(ha(l8b))), r(n(fe(l8b))),
+        r(s(eq(l8b))), r(s(ha(l8b))), r(s(fe(l8b))),
+        r(n(eq(l9))), r(n(ha(l9))), r(n(fe(l9))),
+        r(s(eq(l9))), r(s(ha(l9))), r(s(fe(l9))),
+        r(n(eq(l10))), r(n(ha(l10))), r(n(fe(l10))),
+        r(s(eq(l10))), r(s(ha(l10))), r(s(fe(l10))),
         r(n(eq(l11a))), r(n(eq(l11b))), r(n(eq(l16a))), r(n(eq(l16b))),     # rainshadow
         r(s(eq(l11a))), r(s(eq(l11b))), r(s(eq(l14a))), r(s(eq(l14b))),
         r(n(ha(l12a))), r(n(ha(l12b))), r(n(ha(l13a))), r(n(ha(l13b))),

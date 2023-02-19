@@ -1,7 +1,9 @@
 """Climate predictor - the data extraction part
 
 Responsible for stitching together elevation data and creating more parameters to be used in
-learning, such as water influence, elevation differences, and distances from water
+learning, such as water influence, elevation differences, and distances from water.
+
+Also contains functions for visualizing array data and turning them into animations
 
 Data for targets from https://www.worldclim.org/data/worldclim21.html
 
@@ -20,13 +22,9 @@ download_targets(resolution)
 
 from PIL import Image
 import PIL
-from typing import Optional
-import numpy as np
-import matplotlib.pyplot as plt
 from scipy.ndimage.filters import gaussian_filter
 from typing import Union
-import imageio
-import os
+from visualize import *
 
 Image.MAX_IMAGE_PIXELS = None
 
@@ -137,14 +135,17 @@ def process_raw_data(land: np.ndarray, elevation: np.ndarray,
     elev_diff_15 = elevation_differences(elevation, prop(15)).reshape((8, w * h)).T
 
     # Latitude
-    cols = np.product(elevation.shape)
-    # x = np.repeat(np.array(range(w)).reshape(1, w), h, axis=0).reshape(cols, 1)
-    y = np.repeat(np.array(range(h)).reshape(h, 1), w, axis=1).reshape(cols, 1)
-    latitude = 90 - y - prop(0.5)
+    latitude = get_latitude((w, h))
 
     # Water distance
-    compare = lambda x1, x2: np.log((x2 + 0.1) / (x1 + 0.1))
-    # compare is positive if x2 > x1, zero if x2 = x1, negative if x2 < x1. Requires x1, x2 >= 0
+    def compare(x1: np.ndarray, x2: np.ndarray) -> np.ndarray:
+        """Compare the values in x1 and x2, which are both non-negative.
+        If x2 > x1, return positive
+        If x2 = x1, return 0
+        If x2 < x2, return negative
+        """
+        return np.log((x2 + 0.1) / (x1 + 0.1))
+
     d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12 = d_context(land)
     d13, d14, d15, d16, d17, d18, d19, d20 = d_no_context(land)
     d21 = compare(d1, d4)
@@ -158,8 +159,8 @@ def process_raw_data(land: np.ndarray, elevation: np.ndarray,
 
     # Combine inputs
     inland[land == 0] = np.nan
-    inputs = np.c_[latitude, elevation.reshape(cols, 1),
-                   inland.reshape(cols, 1), water_influence.reshape(cols, 1),
+    inputs = np.c_[latitude, elevation.reshape(w * h, 1),
+                   inland.reshape(w * h, 1), water_influence.reshape(w * h, 1),
                    elev_diff_3, elev_diff_5, elev_diff_10, elev_diff_15,
                    d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16,
                    d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28]
@@ -230,6 +231,18 @@ def load_land(resolution: tuple[int, int] = (360, 180)) -> np.ndarray:
 ####################################################################################################
 # Processing to obtain more inputs
 ####################################################################################################
+def get_latitude(resolution: tuple[int, int] = (360, 180)) -> np.ndarray:
+    """Return latitude."""
+    w, h = resolution
+    prop = lambda x: x * (h // 180)
+
+    cols = np.product(resolution)
+    # x = np.repeat(np.array(range(w)).reshape(1, w), h, axis=0).reshape(cols, 1)
+    y = np.repeat(np.array(range(h)).reshape(h, 1), w, axis=1).reshape(cols, 1)
+    latitude = 90 - y - prop(0.5)
+    return latitude
+
+
 def shuffle(m: np.ndarray, direction: str, i: int = 1) -> np.ndarray:
     """Shuffle a matrix in one direction by i pixels .
 
@@ -525,32 +538,3 @@ def import_targets(resolution: tuple[int, int] = (360, 180), flip_lr: bool = Fal
 
     targets = np.array([temp_avg, temp_max, temp_min, precipitation, sunlight, vapour, wind])
     return targets
-
-
-####################################################################################################
-# Data visualization
-####################################################################################################
-def visualize(matrix: np.ndarray) -> None:
-    """Visualize a matrix as a heat map."""
-    plt.clf()
-    plt.imshow(matrix)
-    plt.get_current_fig_manager().window.state('zoomed')
-    plt.show()
-
-
-def animate(matrix: np.ndarray, name: str, resolution: tuple[int, int] = (360, 180)) -> None:
-    """Create a gif of the matrix, counting each column as a frame."""
-    _, frames = matrix.shape
-    w, h = resolution
-    for i in range(frames):
-        data = matrix.T[i].reshape(h, w)
-        plt.clf()
-        plt.imshow(data)
-        plt.get_current_fig_manager().window.state('zoomed')
-        plt.savefig(f'img/{name}_{i}.png')
-    with imageio.get_writer(f'img/{name}.gif', mode="I") as writer:
-        for i in range(frames):
-            image = imageio.v2.imread(f"img/{name}_{i}.png")
-            writer.append_data(image)
-            os.remove(f"img/{name}_{i}.png")
-    print(f"Successfully created gif at img/{name}.gif")

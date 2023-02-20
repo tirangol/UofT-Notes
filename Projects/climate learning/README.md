@@ -61,7 +61,7 @@ and precipitation:
 
 I started on and have focused most of my efforts on predicting monthly temperature. The biggest time sink has been going back and forth between data processing and data analysis to find better correlations and reduce loss and converge quicker.
 
-Here is my first attempt, using basic multivariate linear regression. There're clearly flaws in how high elevations in the northern hemisphere seems to get colder in the summer.
+Always try simple models first, so here is the results of basic multivariate linear regression. There're clearly flaws in how high elevations in the northern hemisphere seems to get colder in the summer.
 
 <p align="center">
 <img src="img/lin.gif" width="800px">
@@ -79,7 +79,7 @@ Here's another attempt, where I treated latitude completely differently and mode
 <img src="img/new_lat.gif" width="800px">
 </p>
 
-Here is a gradient descent attempt by a 3-layer neural network using relu(x), followed by 70 * tanh(x / 140), learning rate of 0.001, and momentum:
+After massive tweaking to how the inputs are processed, here is a gradient descent attempt by a 1-layer neural network using a Relu activation function followed by 70 * tanh(x / 140), a learning rate of 0.001, and applying momentum:
 
 <p align="center">
 <img src="img/neural.gif" width="800px">
@@ -93,14 +93,13 @@ And here's its prediction on a retrograde Earth:
 
 I do worry that the network has overfitted, as I feel West Siberia (as in, East Siberia in the normal Earth) should be much warmer and that this retrograde model predicts it to be almost as cold as it was before.
 
-I actually attempted neural networks first, but my inputs were not well-processed for the task, so I ended up with super-long convergence times that overfitted a lot. But this attempt with better features worked out pretty well. There's still many rough edges though:
+I attempted using neural networks before linear regression, but my inputs were not well-processed for the task, so I ended up with super-long convergence times that overfitted a lot. But this attempt with better features worked out pretty well. There's still many rough edges though:
 - Patagonia should get warmer in the summer and colder in the winter
 - Northern Africa is too cold during the winter
 - Northern coasts of Australia is warmer than the interior during January
 - Northern Antarctica is too warm
 
-After some tweaking to the data processing, and trying different techniques like dropout, batch descent (to speed things up), boosting, and different activation functions, my results don't change much:
-
+After some tweaking to the data processing, and trying different techniques like dropout, batch descent (to speed things up), boosting, and different activation functions, my results did not change much:
 
 <p align="center">
 <img src="img/neural_pls.gif" width="800px">
@@ -110,7 +109,7 @@ After some tweaking to the data processing, and trying different techniques like
 <img src="img/batchboost.gif" width="800px">
 </p>
 
-Similar error areas as last time, plus whatever is happening in Greenland. A factor I think is contributing to poor predictions is the small number of layers in my network (only 1, apart from the input and output layers), which I did to preserve speed, although I did try an extra layer and it did not improve. So, I'm going to try doing some modelling and and account for some more obvious trends before letting the neural network solve the smaller problems:
+There are similar error areas as last time, plus whatever is happening in Greenland. A factor I think is contributing to poor predictions is the small number of layers in my network (only 1, apart from the input and output layers), which I did to preserve speed, although I did try an extra layer and it did not improve. So, I'm going to try doing some modelling and and account for some more obvious trends before letting the neural network solve the smaller, subtler problems:
 
 For instance, we can capture most of the latitude-induced variation from a slightly-flattened cos curve:
 

@@ -6,21 +6,24 @@ A work-in-progress machine learning project to predict monthly temperature/preci
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/K%C3%B6ppen-Geiger_Climate_Classification_Map.png/1280px-K%C3%B6ppen-Geiger_Climate_Classification_Map.png" width="800px">
 </p>
 
-There are many labels, but the most important details are the first letters - A for warm/wet equatorial regions, B for desert, C for temperate areas, D for continental/snowy areas, and E for polar regions.
-
-Here's what the real-world Koppen climate map looks like when processed in my program (with resolution to 1 degree), using nearest-neighbours sampling:
+Here's what the real-world Koppen climate map looks like when processed in my program (with resolution to 1 degree), using nearest-neighbours sampling. It uses and same colours as the above picture and contains a legend.
 
 <p align="center">
 <img src="img/koppen.png" width="800px">
 </p>
 
-Here's my (so-far) best-performing model that has been fitted to Earth.
+There are many labels, but the most important details are the first letters - A for warm/wet equatorial regions, B for desert, C for temperate areas, D for continental/snowy areas, and E for polar regions. Here's my (so-far) best-performing model fitted to normal Earth, trying to predict normal Earth climates.
 
 <p align="center">
 <img src="img/first attempt.png" width="800px">
 </p>
 
-Libraries used are **numpy** for most data processing, **pytorch** for the neural network, **matplotlib.pyplot** for plots, **imageio** for processing plots into gifs, and **os** for removing the generated gif frames.
+Libraries used are:
+- **numpy**: For most data processing
+- **pytorch**: For the neural network
+- **matplotlib.pyplot**: For plots and visualizations
+- **imageio**: For processing plots into gifs
+- **os**: For removing generated gif frames
 
 The model is very naïve as it does not take into account water depth, vegetation, thermohaline circulation, or the chemical makeup of the atmosphere/water.
 
@@ -28,17 +31,21 @@ The model has no practical scientific use, but it could be used as a fast, light
 
 This project is not complete and **will not run properly** as I have not uploaded the necessary raw data to Github (it is 12 gigabytes). I will upload saved copies of data in the future, when my model is complete.
 
-## About
+Also, I have some knowledge of climatology, but only to the level of a hobbyist.
 
-Predicting climate is a task that doesn't neatly fit into most machine learning tasks because there is only one Earth (ie. one example). As such, how do you exactly measure overfitting? How do you know if something is a bad model or bad theoretical assumption?
+## Issues
+
+Predicting climate of an Earth-like planet doesn't neatly fit into most machine learning tasks because there is only one Earth (ie. one example). As such, how do you exactly measure overfitting? How do you know if something is a bad model or bad theoretical assumption?
 
 Luckily, I know this scientific article (https://esd.copernicus.org/articles/9/1191/2018/) about the climate of a retrograde rotating Earth (ie. if Earth rotated backwards), which is a real physics-based simulation that I trust is likely to be accurate. So, I can sort of judge based on that by whether or not my model is bad.
 
-I have some knowledge of climatology, but only to the level of a hobbyist.
+Another issue is making sure the model treats the north and south hemispheres the same - as such, in my learning I have data for a map of Earth plus data for a map of Earth rotated 180 degrees. This allows the neural network to be consistent across latitudes.
+
+Also, latitude, elevation, and coastlines alone is not enough data - we need points to be "aware" of the areas around them, similar to the principles of a convolutional neural network. Lots of time was spend essentially performing convolutions on these pieces of data to calculate inputs like how many pixels inland a piece of land is, or the "influence" of water on the land, elevation differences in certain directions, etc. A lot of these calculations are unfortunately impacted by the map projection being used (equirectangular) and limited choices of directions. I did not use a convolutional neural network because I already had a good idea of the types of data that should be theoretically useful, and I had less experience working with them.
 
 ## Temperature and Precipitation
 
-Here is a generated gif of real monthly temperatures across Earth:
+For the sake of reference, here is a generated gif of real monthly temperatures across Earth:
 
 <p align="center">
 <img src="img/temp.gif" width="800px">
@@ -50,13 +57,9 @@ and precipitation:
 <img src="img/prec.gif" width="800px">
 </p>
 
-Note that in my learning, I have data for a map of Earth, plus data for a map of Earth rotated 180 degrees. This allows the neural network to be consistent across latitudes, not fitting treating the southern hemisphere any differently than the north.
-
 ## Learning Temperature
 
-Latitude, elevation, and coastlines alone is not enough data - we need points to be "aware" of the areas around them, similar to the principles of a convolutional neural network. Lots of time was spend essentially performing convolutions on these pieces of data to calculate inputs like how many pixels inland a piece of land is, or the "influence" of water on the land, elevation differences in certain directions, etc. A lot of these calculations are unfortunately impacted by the map projection being used (equirectangular) and limited choices of directions. I did not use a convolutional neural network because I already had a good idea of the types of data that should be theoretically useful, and I had less experience working with them.
-
-I have focused most of my efforts on predicting monthly temperature. The biggest time sink has been going back and forth between data processing and data analysis to find better correlations and reduce loss and converge quicker.
+I started on and have focused most of my efforts on predicting monthly temperature. The biggest time sink has been going back and forth between data processing and data analysis to find better correlations and reduce loss and converge quicker.
 
 Here is my first attempt, using basic multivariate linear regression. There're clearly flaws in how high elevations in the northern hemisphere seems to get colder in the summer.
 
@@ -107,7 +110,7 @@ After some tweaking to the data processing, and trying different techniques like
 <img src="img/batchboost.gif" width="800px">
 </p>
 
-Similar error areas as last time, plus whatever is happening in Greenland. A factor I think is contributing to poor predictions if the small number of layers in my network (only 3), which I did to preserve speed. So, I'm going to try doing some modelling and and account for some more obvious trends before letting the neural network solve the smaller problems:
+Similar error areas as last time, plus whatever is happening in Greenland. A factor I think is contributing to poor predictions is the small number of layers in my network (only 1, apart from the input and output layers), which I did to preserve speed, although I did try an extra layer and it did not improve. So, I'm going to try doing some modelling and and account for some more obvious trends before letting the neural network solve the smaller problems:
 
 For instance, we can capture most of the latitude-induced variation from a slightly-flattened cos curve:
 

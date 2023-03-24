@@ -168,3 +168,8 @@ This is what an actual physics simulation predicts (top for retrograde):
 </p>
 
 I'm surprised that my model is not actually that bad!
+
+
+EDIT:
+
+Extended to render realistic satelite images in a Hackathon - https://devpost.com/software/ai-climate-drawer
